@@ -2,6 +2,7 @@ package smartjava.in.ua;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.sleuth.Sampler;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +20,7 @@ public class ZipkinApplication {
 	}
 
 	@Bean
-	public AlwaysSampler defaultSampler() {
+	public Sampler defaultSampler() {
 		return new AlwaysSampler();
 	}
 }

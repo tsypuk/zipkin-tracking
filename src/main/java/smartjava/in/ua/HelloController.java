@@ -26,20 +26,17 @@ public class HelloController {
 
     @GetMapping("/transit")
     public String transit() {
-//        Add random to this endpoint
-        String response;
-        if (new Random().nextInt(4) > 0) {
-            response  = restTemplate.getForObject(url, String.class);
-            LOGGER.info("Called /transit endpoint");
-        } else  {
-            response = "Breaking the loop";
-        }
-        return this.microserviceName + response;
+        LOGGER.info("Called /transit endpoint.");
+        String response = (new Random().nextInt(4) > 0) ? "/transit" : "/terminal";
+        return this.microserviceName + " -> " + restTemplate.getForObject(url + response, String.class);
     }
 
     @GetMapping("/terminal")
     public String terminal() {
-        LOGGER.info("Called /terminal endpoint. Calling /endpoint.");
-        return microserviceName;
+        LOGGER.info("Called /terminal endpoint.");
+        if (new Random().nextInt(2) > 0) {
+            throw new RuntimeException("Emulating error.");
+        }
+        return this.microserviceName;
     }
 }

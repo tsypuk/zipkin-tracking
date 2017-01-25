@@ -24,14 +24,14 @@ public class HelloController {
 
     @GetMapping("/transit")
     public String transit() {
-        String response = restTemplate.getForObject("url", String.class);
+        String response = restTemplate.getForObject(url, String.class);
         LOGGER.info("Called /transit endpoint");
         return this.microserviceName + response;
     }
 
     @GetMapping("/terminal")
     public String terminal() {
-        LOGGER.info("Called /terminal endpoint");
+        LOGGER.info("Called /terminal endpoint. Calling /endpoint.");
         return microserviceName;
     }
 }

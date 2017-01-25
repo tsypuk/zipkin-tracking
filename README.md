@@ -7,7 +7,7 @@ Start docker container with zipkin
 Tracking microservice requests corellation ID with zipkin
 
 ## UPDATE APPLICATION TO USE SLEUTH
-Add org.springframework.cloud:spring-cloud-starter-sleuth dependency
+Add org.springframework.cloud:springпеш-cloud-starter-sleuth dependency
 Define spring.application.name=micro#
 The name you give your application will show up as part of the tracing produced by Sleuth.
 

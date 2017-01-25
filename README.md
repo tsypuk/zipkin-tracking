@@ -1,4 +1,8 @@
 # zipkin-corellationId
+
+Start docker container with zipkin
+#### docker run -d -p 9411:9411 openzipkin/zipkin
+
 Tracking microservice requests corellation ID with zipkin
 
 

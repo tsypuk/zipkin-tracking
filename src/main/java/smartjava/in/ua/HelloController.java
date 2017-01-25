@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Random;
+
 @RestController
 public class HelloController {
 
@@ -24,8 +26,14 @@ public class HelloController {
 
     @GetMapping("/transit")
     public String transit() {
-        String response = restTemplate.getForObject(url, String.class);
-        LOGGER.info("Called /transit endpoint");
+//        Add random to this endpoint
+        String response;
+        if (new Random().nextInt(4) > 0) {
+            response  = restTemplate.getForObject(url, String.class);
+            LOGGER.info("Called /transit endpoint");
+        } else  {
+            response = "Breaking the loop";
+        }
         return this.microserviceName + response;
     }
 

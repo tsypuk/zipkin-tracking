@@ -27,6 +27,7 @@ public class HelloController {
     @GetMapping("/transit")
     public String transit() {
         LOGGER.info("Called /transit endpoint.");
+        restTemplate.getForObject(url + "/terminal", String.class);
         String response = (new Random().nextInt(4) > 0) ? "/transit" : "/terminal";
         return this.microserviceName + " -> " + restTemplate.getForObject(url + response, String.class);
     }
@@ -34,7 +35,7 @@ public class HelloController {
     @GetMapping("/terminal")
     public String terminal() {
         LOGGER.info("Called /terminal endpoint.");
-        if (new Random().nextInt(2) > 0) {
+        if (new Random().nextInt(4) == 0) {
             throw new RuntimeException("Emulating error.");
         }
         return this.microserviceName;

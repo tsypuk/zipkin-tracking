@@ -1,8 +1,9 @@
-# ZIPKIN-CORELLATIONID
+# ZIPKIN-CORRELATIONID
 
+Created 3 microservice docker containers that communicate with each other. Each microservice has 2 end points. First terminal and second /transit
+that calls next microservice and does the chaining.
+By using random number in condition (new Random().nextInt(5) > 0) is choosen to do next chain call or not.
 ![Zipkin1](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin1.png)
-![Zipkin2](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin2.png)
-![Zipkin3](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin3.png)
 
 ## TERMINOLOGY
 ####Span:
@@ -15,7 +16,7 @@ A set of spans forming a tree-like structure. For example, if you are running a 
 Run ansible runbook to build docker image and start containers with microservices and container
 with Zipkin. Plus ansible will do 3 http get call to all microservices to add correlation IDs to zipkin. 
 #### ansible-playbook src/main/ansible/RunMicros.yml
-
+![Zipkin2](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin2.png)
 ## PORTS SCHEMA
 ```
 service     container port  localmachine port
@@ -24,7 +25,6 @@ micro2      8080            http://localhost:8082
 micro3      8080            http://localhost:8083
 zipkin      9411            http://localhost:9411
 ```
-
 ## START ZIPKIN DOCKER
 Start docker container with zipkin
 #### docker run -d -p 9411:9411 openzipkin/zipkin

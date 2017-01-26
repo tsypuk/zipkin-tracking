@@ -1,10 +1,29 @@
 # ZIPKIN-CORELLATIONID
+
+![Zipkin1](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin1.png)
+![Zipkin2](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin2.png)
+![Zipkin3](https://github.com/tsypuk/zipkin-tracking/blob/master/config/img/zipkin3.png)
+
 ## TERMINOLOGY
 ####Span:
 The basic unit of work. For example, sending an RPC is a new span, as is sending a response to an RPC. Span’s are identified by a unique 64-bit ID for the span and another 64-bit ID for the trace the span is a part of. Spans also have other data, such as descriptions, timestamped events, key-value annotations (tags), the ID of the span that caused them, and process ID’s (normally IP address).
 Spans are started and stopped, and they keep track of their timing information. Once you create a span, you must stop it at some point in the future.
 ####Trace: 
 A set of spans forming a tree-like structure. For example, if you are running a distributed big-data store, a trace might be formed by a put request.
+
+## USE ANSIBLE TO BUILD AND RUN
+Run ansible runbook to build docker image and start containers with microservices and container
+with Zipkin. Plus ansible will do 3 http get call to all microservices to add correlation IDs to zipkin. 
+#### ansible-playbook src/main/ansible/RunMicros.yml
+
+## PORTS SCHEMA
+```
+service     container port  localmachine port
+micro1      8080            http://localhost:8081
+micro2      8080            http://localhost:8082
+micro3      8080            http://localhost:8083
+zipkin      9411            http://localhost:9411
+```
 
 ## START ZIPKIN DOCKER
 Start docker container with zipkin
@@ -42,4 +61,5 @@ The span ids are different because we have two different “units of work” occ
 ## TODO ITEMS
 
 - [x] Created microservices for correlation ID tracing
-- [ ] Add docker integration for zipkin and every microservice container.
+- [x] Add docker integration for zipkin and every microservice container.
+- [x] Added ansible build for all microservices.

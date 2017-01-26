@@ -1,0 +1,44 @@
+#- name: Build docker image for microservice. Create and run 3 containers. Run zipkin container.
+- hosts: localhost
+  vars:
+    projectFolder: /Users/rtsypuk/projects/personal/zipkin/
+    microApp: micro_app
+
+  tasks:
+  - name: 'Remove running containers.'
+    command: bash -lc "docker rm -f $(docker ps --filter ancestor={{microApp}} -q --no-trunc)"
+    ignore_errors: yes
+
+  - name: 'Removing old APP images.'
+    command: bash -lc  "docker rmi -f {{microApp}}"
+    ignore_errors: yes
+
+  - name: 'Clean up dangling images.'
+    command: bash -lc "docker rmi -f $(docker images --filter \""dangling=true\"" -q --no-trunc)"
+    ignore_errors: yes
+
+  - name: 'Building Docker Image for micro_app.'
+    command: bash -lc  "cd {{projectFolder}} && docker build --rm --label {{microApp}} -t '{{microApp}}:latest' ."
+    ignore_errors: yes
+
+  - name: 'Running Docker compose.'
+    command: bash -lc  "docker-compose -f {{projectFolder}}src/main/docker/micro.yml up -d"
+
+  - name: 'Wait 2 minutes while microservices boot'
+    pause:
+      minutes: 2
+
+  - name: 'call1micro'
+    uri:
+      url: http://localhost:8081/transit
+      method: GET
+
+  - name: 'call2micro'
+    uri:
+      url: http://localhost:8082/transit
+      method: GET
+
+  - name: 'call3micro'
+    uri:
+      url: http://localhost:8083/transit
+      method: GET

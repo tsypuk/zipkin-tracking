@@ -1,0 +1,44 @@
+version: '2'
+services:
+    micro-app1:
+#        build: ../../../.
+        image: micro_app
+        external_links:
+          - micro-zipkin
+          - micro-app2
+        ports:
+          - "8081:8080"
+        environment:
+          - "SPRING_PROFILES_ACTIVE=micro1"
+          - "SERVICE_URL_CALL=http://micro-app2:8080/"
+#          - "SPRING_ZIPKIN_BASEURL=http://micro-zipkin:9411/"
+
+    micro-app2:
+#        build: ../../../.
+        image: micro_app
+        external_links:
+          - micro-zipkin
+          - micro-app3
+        ports:
+          - "8082:8080"
+        environment:
+          - "SPRING_PROFILES_ACTIVE=micro2"
+          - "SERVICE_URL_CALL=http://micro-app3:8080/"
+#          - "SPRING_ZIPKIN_BASEURL=http://micro-zipkin:9411/"
+
+    micro-app3:
+#        build: ../../../.
+        image: micro_app
+        external_links:
+          - micro-zipkin
+        ports:
+          - "8083:8080"
+        environment:
+          - "SPRING_PROFILES_ACTIVE=micro3"
+          - "SERVICE_URL_CALL=http://micro-app3:8080/"
+#          - "SPRING_ZIPKIN_BASEURL=http://micro-zipkin:9411/"
+
+    micro-zipkin:
+        image: openzipkin/zipkin
+        ports:
+          - "9411:9411"
